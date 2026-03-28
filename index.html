@@ -6,44 +6,43 @@
     <title>LorHels ListCompare</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-        }
+        tailwind.config = { darkMode: 'class', }
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .completed { opacity: 0.5; }
         .completed-text { text-decoration: line-through; }
-        .loader { border-top-color: #4f46e5; animation: spinner 1.5s linear infinite; }
+        .loader { border-top-color: #6366f1; animation: spinner 1.5s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 min-h-screen">
+<body class="bg-slate-900 min-h-screen text-slate-200">
 
-    <div id="loadingScreen" class="fixed inset-0 bg-white dark:bg-slate-900 z-50 flex flex-col items-center justify-center">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-200 dark:border-slate-700 h-12 w-12 mb-4"></div>
-        <p class="text-indigo-600 dark:text-indigo-400 font-bold">Iniciando LorHels...</p>
+    <div id="loadingScreen" class="fixed inset-0 bg-slate-900 z-50 flex flex-col items-center justify-center">
+        <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-700 h-12 w-12 mb-4"></div>
+        <p class="text-indigo-400 font-bold">Iniciando LorHels...</p>
     </div>
 
     <div id="authScreen" class="hidden min-h-screen flex flex-col items-center justify-center p-6">
-        <div class="max-w-md w-full bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700">
+        <div class="max-w-md w-full bg-slate-800 p-8 rounded-3xl shadow-xl border border-slate-700">
             <div class="text-center mb-8">
                 <div class="bg-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg mb-4">
                     <i class="fa-solid fa-user text-white text-2xl"></i>
                 </div>
-                <h2 class="text-2xl font-black text-slate-800 dark:text-white">Bienvenido</h2>
-                <p class="text-slate-500 dark:text-slate-400 text-sm">Ingresa con tu correo para guardar tus listas</p>
+                <h2 class="text-2xl font-black text-white">Bienvenido</h2>
+                <p class="text-slate-400 text-sm">Ingresa con tu correo para guardar tus listas</p>
             </div>
             <div class="space-y-4">
-                <input id="emailInput" type="email" placeholder="Correo electrónico" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                <input id="passwordInput" type="password" placeholder="Contraseña (mín. 6 caracteres)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                <input id="emailInput" type="email" placeholder="Correo electrónico" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                <input id="passwordInput" type="password" placeholder="Contraseña (mín. 6 caracteres)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
                 <div class="flex gap-2 pt-2">
                     <button onclick="loginUser()" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition">Entrar</button>
-                    <button onclick="registerUser()" class="flex-1 bg-slate-800 dark:bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-black dark:hover:bg-slate-600 transition">Registrarse</button>
+                    <button onclick="registerUser()" class="flex-1 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-600 transition">Registrarse</button>
                 </div>
             </div>
         </div>
@@ -51,62 +50,114 @@
 
     <div id="homeScreen" class="hidden min-h-screen flex flex-col items-center py-10 p-6">
         <div class="max-w-md w-full space-y-6">
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500">Sesión iniciada como</p>
-                    <p id="userEmailDisplay" class="font-bold text-slate-800 dark:text-white truncate w-48">correo</p>
+            <div class="bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-700 flex justify-between items-center relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="flex items-center gap-2 mb-1">
+                        <p class="text-[10px] uppercase font-bold text-slate-500">Sesión iniciada</p>
+                        <span id="planBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-slate-700 text-slate-300">BÁSICO</span>
+                    </div>
+                    <p id="userEmailDisplay" class="font-bold text-white truncate w-32">correo</p>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="logoutUser()" class="text-slate-400 dark:text-slate-300 hover:text-red-500 transition p-2 w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-700"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <div class="flex gap-2 relative z-10 items-center">
+                    <button onclick="openAdminPanel()" id="adminBtn" class="hidden text-emerald-400 hover:text-emerald-300 transition p-2 w-8 h-8 flex items-center justify-center rounded-full bg-slate-700" title="Panel de Administración"><i class="fa-solid fa-shield-halved"></i></button>
+                    <button onclick="openUpgradeModal()" id="upgradeBtn" class="hidden text-amber-400 hover:text-amber-300 transition p-2 w-8 h-8 flex items-center justify-center rounded-full bg-slate-700"><i class="fa-solid fa-crown"></i></button>
+                    <button onclick="logoutUser()" class="text-slate-400 hover:text-red-500 transition p-2 w-8 h-8 flex items-center justify-center rounded-full bg-slate-700"><i class="fa-solid fa-right-from-bracket"></i></button>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 text-center space-y-6">
-                <div>
-                    <h1 class="text-3xl font-black text-slate-800 dark:text-white tracking-tight">LorHels</h1>
-                    <p class="text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest text-xs">ListCompare</p>
+
+            <div class="bg-slate-800 p-8 rounded-3xl shadow-xl border border-slate-700 text-center space-y-6">
+                <div class="flex flex-col items-center">
+                    <i data-lucide="shopping-cart" class="text-indigo-500 w-16 h-16 mb-4"></i>
+                    <h1 class="text-3xl font-black text-white tracking-tight">LorHels</h1>
+                    <p class="text-indigo-400 font-bold uppercase tracking-widest text-xs">ListCompare</p>
                 </div>
                 <div class="space-y-4">
                     <button onclick="createNewList()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-md hover:bg-indigo-700 transition active:scale-95 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-plus"></i> Crear Nueva Lista
                     </button>
                     <div class="relative py-2">
-                        <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-slate-100 dark:border-slate-700"></span></div>
-                        <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-widest"><span class="bg-white dark:bg-slate-800 px-3 text-slate-400 dark:text-slate-500">O únete con código</span></div>
+                        <div class="absolute inset-0 flex items-center"><span class="w-full border-t border-slate-700"></span></div>
+                        <div class="relative flex justify-center text-[10px] uppercase font-bold tracking-widest"><span class="bg-slate-800 px-3 text-slate-500">O únete con código</span></div>
                     </div>
                     <div class="flex gap-2">
-                        <input id="listCodeInput" type="text" placeholder="CÓDIGO" class="flex-1 bg-slate-100 dark:bg-slate-900 border-none rounded-xl px-4 py-3 text-center font-mono font-bold uppercase tracking-widest text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                        <button onclick="joinList()" class="bg-slate-800 dark:bg-slate-700 text-white px-5 rounded-xl hover:bg-black dark:hover:bg-slate-600 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                        <input id="listCodeInput" type="text" placeholder="CÓDIGO" class="flex-1 bg-slate-900 border-none rounded-xl px-4 py-3 text-center font-mono font-bold uppercase tracking-widest text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <button onclick="joinList()" class="bg-slate-700 text-white px-5 rounded-xl hover:bg-slate-600 transition"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <h3 class="font-bold text-slate-800 dark:text-white mb-4"><i class="fa-solid fa-clock-rotate-left mr-2 text-indigo-500"></i>Mis Listas</h3>
+
+            <div class="bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-700">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-white"><i class="fa-solid fa-clock-rotate-left mr-2 text-indigo-500"></i>Mis Listas</h3>
+                    <span id="listCountLabel" class="text-xs font-bold text-slate-500">0 / 2</span>
+                </div>
                 <div id="myListsContainer" class="space-y-2"></div>
             </div>
         </div>
     </div>
 
+    <div id="adminScreen" class="hidden min-h-screen flex flex-col items-center py-10 p-6">
+        <div class="max-w-2xl w-full space-y-6">
+            <div class="flex justify-between items-center bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                <div class="flex items-center gap-3">
+                    <button onclick="closeAdminPanel()" class="text-slate-400 hover:text-white p-2"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 class="text-xl font-black text-white"><i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i>Panel Admin</h2>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 rounded-3xl shadow-sm border border-slate-700 overflow-hidden">
+                <div class="p-5 border-b border-slate-700 flex justify-between items-center">
+                    <h3 class="font-bold text-white text-sm">Usuarios Registrados</h3>
+                    <button onclick="loadUsersForAdmin()" class="text-xs bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg transition"><i class="fa-solid fa-arrows-rotate mr-1"></i>Refrescar</button>
+                </div>
+                <div class="p-0 overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-900/50 text-xs uppercase text-slate-500">
+                            <tr>
+                                <th class="px-5 py-3">Correo</th>
+                                <th class="px-5 py-3">Plan</th>
+                                <th class="px-5 py-3">Vence</th>
+                                <th class="px-5 py-3 text-right">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTable" class="divide-y divide-slate-700/50">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="listScreen" class="hidden flex flex-col min-h-screen pb-32">
-        <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-10 p-4 shadow-sm">
+        <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-10 p-4 shadow-sm">
             <div class="max-w-2xl mx-auto flex justify-between items-center">
-                <button onclick="exitList()" class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full text-slate-400 dark:text-slate-300 transition"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="text-center flex-1 mx-2">
-                    <h2 id="listTitleDisplay" class="font-extrabold text-slate-800 dark:text-white truncate">Cargando...</h2>
-                    <div class="flex items-center gap-2 justify-center">
-                        <span id="displayListId" class="text-[10px] font-mono font-bold bg-indigo-50 dark:bg-indigo-900/50 px-2 py-0.5 rounded text-indigo-600 dark:text-indigo-400 tracking-tighter">------</span>
-                        <button onclick="copyId()" class="text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400"><i class="fa-regular fa-copy text-xs"></i></button>
+                <button onclick="exitList()" class="p-2 hover:bg-slate-700 rounded-full text-slate-300 transition"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="text-center flex-1 mx-2 flex flex-col items-center">
+                    <h2 id="listTitleDisplay" class="font-extrabold text-white truncate w-full">Cargando...</h2>
+                    <div class="flex items-center gap-2 justify-center mt-0.5">
+                        <span id="displayListId" class="text-[10px] font-mono font-bold bg-indigo-900/50 px-2 py-0.5 rounded text-indigo-400 tracking-tighter">------</span>
+                        <button onclick="copyId()" class="text-slate-500 hover:text-indigo-400"><i class="fa-regular fa-copy text-xs"></i></button>
+                        <span id="offlineIndicator" class="hidden bg-red-500/20 text-red-400 text-[9px] font-bold px-2 py-0.5 rounded border border-red-500/30 animate-pulse">
+                            <i class="fa-solid fa-cloud-bolt mr-1"></i>Offline
+                        </span>
                     </div>
                 </div>
                 <div class="flex gap-1 items-center">
-                    <button onclick="openStatsModal()" class="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-full text-indigo-500 transition w-9 h-9 flex items-center justify-center"><i class="fa-solid fa-chart-pie"></i></button>
-                    <button onclick="openListSettings()" class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-full text-slate-500 dark:text-slate-400 transition w-9 h-9 flex items-center justify-center"><i class="fa-solid fa-gear"></i></button>
-                    <button onclick="shareViaWhatsApp()" class="p-2 hover:bg-green-50 dark:hover:bg-green-900/30 rounded-full text-green-500 transition w-9 h-9 flex items-center justify-center"><i class="fa-brands fa-whatsapp text-lg"></i></button>
+                    <button onclick="openStatsModal()" class="relative p-2 hover:bg-indigo-900/30 rounded-full text-indigo-400 transition w-9 h-9 flex items-center justify-center">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <i id="lockStats" class="fa-solid fa-lock text-[8px] absolute top-1 right-1 text-amber-400"></i>
+                    </button>
+                    <button onclick="openListSettings()" class="p-2 hover:bg-slate-700 rounded-full text-slate-400 transition w-9 h-9 flex items-center justify-center"><i class="fa-solid fa-gear"></i></button>
+                    <button onclick="shareListViaWhatsApp()" class="relative p-2 hover:bg-green-900/30 rounded-full text-green-500 transition w-9 h-9 flex items-center justify-center">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <i id="lockWp" class="fa-solid fa-lock text-[8px] absolute top-1 right-1 text-amber-400"></i>
+                    </button>
                 </div>
             </div>
         </header>
 
         <main class="max-w-2xl mx-auto w-full p-4 space-y-5">
-            <div id="statsWidget" class="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-900 dark:to-black rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+            <div id="statsWidget" class="bg-gradient-to-br from-slate-900 to-black rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
                 <div class="relative z-10 flex justify-between items-start">
                     <div>
                         <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">El más barato</p>
@@ -117,135 +168,126 @@
                 <i class="fa-solid fa-chart-line absolute -bottom-4 -right-2 text-white/5 text-8xl"></i>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-sm border border-slate-200 dark:border-slate-700">
+            <div class="bg-slate-800 rounded-3xl p-5 shadow-sm border border-slate-700">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-bold text-slate-700 dark:text-white text-sm"><i class="fa-solid fa-clipboard-check mr-2 text-indigo-500"></i>Resumen</h3>
-                    <select id="supermarketSelector" onchange="updateSummary()" class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none px-3 py-2 cursor-pointer">
-                    </select>
+                    <h3 class="font-bold text-white text-sm"><i class="fa-solid fa-clipboard-check mr-2 text-indigo-500"></i>Resumen</h3>
+                    <select id="supermarketSelector" onchange="updateSummary()" class="bg-slate-900 border border-slate-700 text-slate-300 text-xs font-bold rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none px-3 py-2 cursor-pointer"></select>
                 </div>
                 <div class="grid grid-cols-3 gap-2 text-center">
-                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 rounded-2xl p-3">
+                    <div class="bg-slate-900/50 border border-slate-700 rounded-2xl p-3">
                         <p class="text-[9px] uppercase font-bold text-slate-400 tracking-wider mb-1">Faltan</p>
-                        <p id="summaryPendingCount" class="font-black text-slate-800 dark:text-white text-lg leading-none">0</p>
-                        <p id="summaryPendingTotal" class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">$0.00</p>
+                        <p id="summaryPendingCount" class="font-black text-white text-lg leading-none">0</p>
+                        <p id="summaryPendingTotal" class="text-xs font-bold text-slate-400 mt-1">$0.00</p>
                     </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 rounded-2xl p-3">
-                        <p class="text-[9px] uppercase font-bold text-emerald-500 dark:text-emerald-400 tracking-wider mb-1">Marcados</p>
-                        <p id="summaryCompletedCount" class="font-black text-emerald-700 dark:text-emerald-500 text-lg leading-none">0</p>
-                        <p id="summaryCompletedTotal" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">$0.00</p>
+                    <div class="bg-emerald-900/20 border border-emerald-800/50 rounded-2xl p-3">
+                        <p class="text-[9px] uppercase font-bold text-emerald-400 tracking-wider mb-1">Marcados</p>
+                        <p id="summaryCompletedCount" class="font-black text-emerald-500 text-lg leading-none">0</p>
+                        <p id="summaryCompletedTotal" class="text-xs font-bold text-emerald-400 mt-1">$0.00</p>
                     </div>
-                    <div class="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-2xl p-3">
-                        <p class="text-[9px] uppercase font-bold text-indigo-500 dark:text-indigo-400 tracking-wider mb-1">Total</p>
-                        <p id="summaryTotalCount" class="font-black text-indigo-700 dark:text-indigo-500 text-lg leading-none">0</p>
-                        <p id="summaryTotalTotal" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 mt-1">$0.00</p>
+                    <div class="bg-indigo-900/20 border border-indigo-800/50 rounded-2xl p-3">
+                        <p class="text-[9px] uppercase font-bold text-indigo-400 tracking-wider mb-1">Total</p>
+                        <p id="summaryTotalCount" class="font-black text-indigo-500 text-lg leading-none">0</p>
+                        <p id="summaryTotalTotal" class="text-xs font-bold text-indigo-400 mt-1">$0.00</p>
                     </div>
                 </div>
             </div>
 
-            <button onclick="openProductModal()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 dark:shadow-indigo-900/50 hover:bg-indigo-700 active:scale-95 transition flex items-center justify-center gap-2">
+            <button onclick="openProductModal()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-900/50 hover:bg-indigo-700 active:scale-95 transition flex items-center justify-center gap-2">
                 <i class="fa-solid fa-cart-plus"></i> Agregar Nuevo Producto
             </button>
 
             <div id="categoryTabsContainer" class="flex gap-2 overflow-x-auto pb-2 mt-4 hide-scrollbar"></div>
-
             <div id="itemsContainer" class="space-y-4"></div>
         </main>
 
-        <div id="footerContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-white dark:border-slate-700 rounded-3xl shadow-2xl p-4 flex justify-between items-center z-20 gap-2 overflow-x-auto"></div>
+        <div id="footerContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md bg-slate-800/90 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl p-4 flex justify-between items-center z-20 gap-2 overflow-x-auto"></div>
     </div>
 
-    <div id="productModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-900">
-                <h3 id="modalTitle" class="font-black text-lg text-slate-800 dark:text-white">Añadir Producto</h3>
-                <button onclick="closeProductModal()" class="text-slate-400 dark:text-slate-500 hover:text-red-500 w-8 h-8 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+    <div id="productModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
+        <div class="bg-slate-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-5 border-b border-slate-700 flex justify-between items-center bg-slate-900">
+                <h3 id="modalTitle" class="font-black text-lg text-white">Añadir Producto</h3>
+                <button onclick="closeProductModal()" class="text-slate-500 hover:text-red-500 w-8 h-8 rounded-full bg-slate-800 shadow-sm border border-slate-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-4">
                 <input type="hidden" id="editItemId" value="">
                 <div>
-                    <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Título *</label>
-                    <input type="text" id="pTitle" placeholder="Ej: Leche" class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none font-bold">
+                    <label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Título *</label>
+                    <input type="text" id="pTitle" placeholder="Ej: Leche" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none font-bold">
                 </div>
                 <div class="flex gap-4">
+                    <div class="flex-1"><label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Cantidad *</label><input type="number" id="pQty" value="1" min="0.1" step="0.1" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-center"></div>
                     <div class="flex-1">
-                        <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Cantidad *</label>
-                        <input type="number" id="pQty" value="1" min="0.1" step="0.1" class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-center">
-                    </div>
-                    <div class="flex-1">
-                        <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Unidad</label>
-                        <select id="pUnit" class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Unidad</label>
+                        <select id="pUnit" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
                             <option value="uds">Unidades</option>
-                            <option value="kg">Kilogramos (kg)</option>
-                            <option value="gr">Gramos (gr)</option>
-                            <option value="L">Litros (L)</option>
-                            <option value="ml">Mililitros (ml)</option>
-                            <option value="caja">Caja</option>
+                            <option value="lb">Libras</option>
+                            <option value="lt">Lata</option>
+                            <option value="L">Litros</option>
                             <option value="paq">Paquete</option>
+                            <option value="oz">Onzas</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Categoría (Opcional)</label>
-                    <input type="text" id="pCategory" placeholder="Ej: Lácteos, Carnes..." class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+                    <label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Categoría</label>
+                    <input type="text" id="pCategory" placeholder="Ej: Lácteos" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
                 </div>
-                <div>
-                    <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">Nota / Detalles (Opcional)</label>
-                    <textarea id="pNote" rows="2" class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm resize-none"></textarea>
+                <div><label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">Nota</label>
+                    <textarea id="pNote" rows="2" class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm resize-none"></textarea>
                 </div>
-                <div>
-                    <label class="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">URL de Imagen (Opcional)</label>
-                    <input type="url" id="pImage" placeholder="https://..." class="w-full mt-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+                <div id="imageInputContainer">
+                    <label class="text-[10px] font-bold uppercase text-slate-500 tracking-wider">URL de Imagen <i class="fa-solid fa-crown text-amber-500 ml-1" title="Solo PRO"></i></label>
+                    <input type="url" id="pImage" placeholder="https://..." class="w-full mt-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-500 focus:ring-2 focus:ring-indigo-500 outline-none text-sm" disabled>
+                    <p class="text-[10px] text-amber-500 mt-1" id="imageProWarning">Mejora a PRO para usar imágenes.</p>
                 </div>
             </div>
-            <div class="p-5 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800">
-                <button onclick="saveProduct()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition active:scale-95">Guardar Producto</button>
+            <div class="p-5 border-t border-slate-700 bg-slate-800">
+                <button onclick="saveProduct()" class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition active:scale-95">Guardar</button>
             </div>
         </div>
     </div>
 
-    <div id="statsModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-indigo-600 text-white">
-                <h3 class="font-black text-lg"><i class="fa-solid fa-chart-pie mr-2"></i>Estadísticas</h3>
+    <div id="statsModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-slate-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-5 border-b border-slate-700 flex justify-between items-center bg-indigo-600 text-white">
+                <h3 class="font-black text-lg"><i class="fa-solid fa-chart-pie mr-2"></i>Estadísticas PRO</h3>
                 <button onclick="closeStatsModal()" class="text-white hover:text-indigo-200 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-6 bg-slate-50 dark:bg-slate-900">
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                    <div class="flex justify-between items-end mb-2">
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide">Progreso de Compra</p>
-                        <p id="statsProgressText" class="font-black text-indigo-600 dark:text-indigo-400 text-lg">0%</p>
-                    </div>
-                    <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
-                        <div id="statsProgressBar" class="bg-indigo-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-                    </div>
-                </div>
+            <div class="p-6 overflow-y-auto space-y-6 bg-slate-900">
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700"><div class="flex justify-between items-end mb-2"><p class="text-xs font-bold text-slate-400 uppercase tracking-wide">Progreso</p><p id="statsProgressText" class="font-black text-indigo-400 text-lg">0%</p></div><div class="w-full bg-slate-700 rounded-full h-3 overflow-hidden"><div id="statsProgressBar" class="bg-indigo-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div></div></div>
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 text-center">
-                        <i class="fa-solid fa-piggy-bank text-emerald-500 text-2xl mb-2"></i>
-                        <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Ahorro Máximo</p>
-                        <p id="statsSavings" class="font-black text-slate-800 dark:text-white text-xl">$0.00</p>
-                    </div>
-                    <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 text-center">
-                        <i class="fa-solid fa-gem text-amber-500 text-2xl mb-2"></i>
-                        <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Lo más caro</p>
-                        <p id="statsMostExpensiveName" class="font-bold text-slate-700 dark:text-slate-300 text-sm truncate">Ninguno</p>
-                        <p id="statsMostExpensivePrice" class="font-black text-slate-800 dark:text-white text-md">$0.00</p>
-                    </div>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 text-center"><i class="fa-solid fa-piggy-bank text-emerald-500 text-2xl mb-2"></i><p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Ahorro Máximo</p><p id="statsSavings" class="font-black text-white text-xl">$0.00</p></div>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 text-center"><i class="fa-solid fa-gem text-amber-500 text-2xl mb-2"></i><p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Lo más caro</p><p id="statsMostExpensiveName" class="font-bold text-slate-300 text-sm truncate">Ninguno</p><p id="statsMostExpensivePrice" class="font-black text-white text-md">$0.00</p></div>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                    <h4 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">Gastos por Categoría</h4>
-                    <div id="statsCategoriesContainer" class="space-y-3"></div>
-                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-4 text-center">*Calculado usando el supermercado más barato actual</p>
-                </div>
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700"><h4 class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-4 border-b border-slate-700 pb-2">Gastos por Categoría</h4><div id="statsCategoriesContainer" class="space-y-3"></div></div>
             </div>
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-800 dark:bg-indigo-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl transition-opacity opacity-0 pointer-events-none z-50">Mensaje</div>
+    <div id="upgradeModal" class="hidden fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[60] flex items-center justify-center p-4">
+        <div class="bg-slate-800 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-amber-500/30 text-center p-8">
+            <i class="fa-solid fa-crown text-amber-400 text-6xl mb-4"></i>
+            <h2 class="text-2xl font-black text-white mb-2">LorHels PRO</h2>
+            <p class="text-slate-400 text-sm mb-4">Desbloquea listas infinitas, múltiples supermercados, fotos en productos y estadísticas.</p>
+            <div class="bg-slate-900 rounded-xl p-4 mb-6 text-left text-xs text-slate-300 space-y-2">
+                <p><strong class="text-white">Paso 1:</strong> Transfiere $4.99 USD a [TU BANCO, CUENTA: 123456789].</p>
+                <p><strong class="text-white">Paso 2:</strong> Envíanos el comprobante por WhatsApp junto con tu correo.</p>
+                <p><strong class="text-white">Paso 3:</strong> Envie el comprobante al 1 (829) 913-5723</p>
+                <p><strong class="text-white">Paso 4:</strong> ¡Activaremos tu cuenta PRO por 30 días!</p>
+            </div>
+            <div class="space-y-3">
+                <button onclick="requestProUpgradeViaWhatsApp()" class="w-full bg-green-500 text-slate-900 font-black py-4 rounded-xl hover:bg-green-400 transition active:scale-95 flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-xl"></i> Enviar Comprobante</button>
+                <button onclick="closeUpgradeModal()" class="w-full bg-slate-700 text-slate-300 font-bold py-3 rounded-xl hover:bg-slate-600 transition">Quizás más tarde</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl transition-opacity opacity-0 pointer-events-none z-50">Mensaje</div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, query, setDoc, getDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, query, setDoc, getDoc, arrayUnion, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -258,511 +300,451 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        
+        const db = initializeFirestore(app, {
+            localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})
+        });
+        
         const auth = getAuth(app);
+
+        lucide.createIcons();
+
+        const ADMIN_EMAIL = "info@handhelsinc.net"; 
 
         let currentListId = null;
         let unsubscribeItems = null;
         let unsubscribeList = null;
         let user = null;
+        
+        let userPlan = "free"; 
+        let userListsCount = 0; 
         let currentListName = "";
         let currentMarkets = [];
-        
         window.currentItemsList = []; 
         window.currentBestMarket = "Ninguno"; 
         window.currentSelectedCategory = "Todas";
 
-        onAuthStateChanged(auth, (u) => {
+        let unsubscribeUser = null;
+
+        window.addEventListener('offline', () => {
+            document.getElementById('offlineIndicator').classList.remove('hidden');
+            showToast("Sin conexión. Trabajando en modo local ☁️");
+        });
+
+        window.addEventListener('online', () => {
+            document.getElementById('offlineIndicator').classList.add('hidden');
+            showToast("Conexión restaurada. Sincronizando... 🚀");
+        });
+
+        if (!navigator.onLine) {
+            document.getElementById('offlineIndicator')?.classList.remove('hidden');
+        }
+
+        onAuthStateChanged(auth, async (u) => {
             document.getElementById('loadingScreen').classList.add('hidden');
             if (u) {
                 user = u;
                 document.getElementById('authScreen').classList.add('hidden');
                 document.getElementById('homeScreen').classList.remove('hidden');
                 document.getElementById('userEmailDisplay').innerText = user.email;
-                loadMyLists();
+                
+                if (user.email === ADMIN_EMAIL) {
+                    document.getElementById('adminBtn').classList.remove('hidden');
+                } else {
+                    document.getElementById('adminBtn').classList.add('hidden');
+                }
+                
+                if(unsubscribeUser) unsubscribeUser();
+                unsubscribeUser = onSnapshot(doc(db, 'users', user.uid), (docSnap) => {
+                    if(docSnap.exists()) {
+                        const data = docSnap.data();
+                        userPlan = data.plan || "free";
+                        
+                        if (userPlan === 'pro' && data.planExpires) {
+                            const now = Date.now();
+                            if (now > data.planExpires) {
+                                userPlan = 'free';
+                                updateDoc(doc(db, 'users', user.uid), { plan: 'free' });
+                                showToast("Tu suscripción PRO ha expirado.");
+                            }
+                        }
+
+                        const lists = data.savedLists || [];
+                        userListsCount = lists.length;
+                        renderMyLists(lists);
+                    } else {
+                        setDoc(doc(db, 'users', user.uid), { email: user.email, plan: "free", savedLists: [] });
+                        userPlan = "free";
+                    }
+                    updateUIByPlan();
+                });
+
             } else {
                 user = null;
+                if(unsubscribeUser) unsubscribeUser();
                 document.getElementById('homeScreen').classList.add('hidden');
                 document.getElementById('listScreen').classList.add('hidden');
                 document.getElementById('authScreen').classList.remove('hidden');
+                document.getElementById('adminScreen').classList.add('hidden');
             }
         });
 
-        window.registerUser = async () => {/*...*/};
-        window.loginUser = async () => {/*...*/};
+        window.registerUser = async () => {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            if(!email || !password) return showToast("Llena todos los campos");
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, 'users', cred.user.uid), { email: email, plan: 'free', savedLists: [] });
+                showToast("¡Cuenta creada con éxito!");
+            } catch (error) { showToast("Error: " + error.message); }
+        };
+
+        window.loginUser = async () => {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            if(!email || !password) return alert("Llena todos los campos");
+            
+            try { 
+                await signInWithEmailAndPassword(auth, email, password); 
+            } catch (error) { 
+                alert("Error detectado en el celular: " + error.message); 
+            }
+        };
+
         window.logoutUser = () => signOut(auth);
 
-        async function saveListToProfile(listId, listName) {
-            if(!user) return;
-            const userRef = doc(db, 'users', user.uid);
-            await setDoc(userRef, { savedLists: arrayUnion({ id: listId, name: listName }) }, { merge: true });
-            loadMyLists();
-        }
+        function updateUIByPlan() {
+            const badge = document.getElementById('planBadge');
+            const upgradeBtn = document.getElementById('upgradeBtn');
+            const imgInput = document.getElementById('pImage');
+            const imgWarning = document.getElementById('imageProWarning');
+            const lockStats = document.getElementById('lockStats');
+            const lockWp = document.getElementById('lockWp');
+            const listLimitLabel = document.getElementById('listCountLabel');
 
-        async function loadMyLists() {
-            if(!user) return;
-            const userRef = doc(db, 'users', user.uid);
-            const docSnap = await getDoc(userRef);
-            const container = document.getElementById('myListsContainer');
-            if (docSnap.exists() && docSnap.data().savedLists && docSnap.data().savedLists.length > 0) {
-                const lists = docSnap.data().savedLists;
-                container.innerHTML = '';
-                lists.forEach(list => {
-                    const listId = typeof list === 'string' ? list : list.id;
-                    const listName = typeof list === 'string' ? 'Lista Antigua' : list.name;
-                    container.innerHTML += `
-                        <button onclick="window.startListSession('${listId}')" class="w-full text-left bg-slate-50 dark:bg-slate-900 hover:bg-indigo-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 p-3 rounded-xl transition flex justify-between items-center group mb-2">
-                            <div>
-                                <p class="font-bold text-slate-700 dark:text-slate-200">${listName}</p>
-                                <p class="text-[10px] font-mono text-slate-400 dark:text-slate-500">ID: ${listId}</p>
-                            </div>
-                            <i class="fa-solid fa-arrow-right text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 dark:group-hover:text-indigo-400"></i>
-                        </button>
-                    `;
-                });
+            if (userPlan === 'pro') {
+                badge.innerText = "PRO"; badge.className = "text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-500 text-slate-900";
+                upgradeBtn.classList.add('hidden');
+                imgInput.disabled = false; imgInput.classList.remove('text-slate-500'); imgInput.classList.add('text-white');
+                imgWarning.classList.add('hidden');
+                lockStats.classList.add('hidden'); lockWp.classList.add('hidden');
+                listLimitLabel.innerText = "Infinitas"; listLimitLabel.classList.add('text-amber-400');
             } else {
-                container.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 text-center py-4">Aún no tienes listas guardadas.</p>';
+                badge.innerText = "BÁSICO"; badge.className = "text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-slate-700 text-slate-300";
+                upgradeBtn.classList.remove('hidden');
+                imgInput.disabled = true; imgInput.classList.add('text-slate-500');
+                imgWarning.classList.remove('hidden');
+                lockStats.classList.remove('hidden'); lockWp.classList.remove('hidden');
+                listLimitLabel.innerText = `${userListsCount} / 2`; listLimitLabel.classList.remove('text-amber-400');
             }
         }
 
-        window.createNewList = async () => {
+        window.openUpgradeModal = () => document.getElementById('upgradeModal').classList.remove('hidden');
+        window.closeUpgradeModal = () => document.getElementById('upgradeModal').classList.add('hidden');
+        
+        window.requestProUpgradeViaWhatsApp = () => {
+            const adminPhone = "18299135723"; 
+            const userEmail = user ? user.email : "desconocido";
+            const message = `Hola LorHels! 👑\n\nQuiero activar mi cuenta PRO.\nMi correo de registro es: *${userEmail}*\n\nAdjunto mi comprobante de pago:`;
+            window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`, '_blank');
+            closeUpgradeModal();
+        };
+
+        window.openAdminPanel = () => {
+            document.getElementById('homeScreen').classList.add('hidden');
+            document.getElementById('adminScreen').classList.remove('hidden');
+            window.loadUsersForAdmin();
+        };
+
+        window.closeAdminPanel = () => {
+            document.getElementById('adminScreen').classList.add('hidden');
+            document.getElementById('homeScreen').classList.remove('hidden');
+        };
+
+        window.loadUsersForAdmin = async () => {
+            if (user.email !== ADMIN_EMAIL) return;
+            const tbody = document.getElementById('adminUsersTable');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4"><div class="loader ease-linear rounded-full border-2 border-t-2 border-slate-700 h-6 w-6 mx-auto"></div></td></tr>';
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "users"));
+                tbody.innerHTML = '';
+                
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const uid = docSnap.id;
+                    const email = data.email || 'Sin correo';
+                    const plan = data.plan || 'free';
+                    
+                    let expireText = "N/A";
+                    if (plan === 'pro' && data.planExpires) {
+                        const date = new Date(data.planExpires);
+                        expireText = date.toLocaleDateString();
+                        if (Date.now() > data.planExpires) expireText = `<span class="text-red-400">Expirado</span>`;
+                    }
+
+                    const planBadge = plan === 'pro' 
+                        ? `<span class="bg-amber-500/20 text-amber-400 px-2 py-1 rounded text-xs font-bold">PRO</span>` 
+                        : `<span class="bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs font-bold">BÁSICO</span>`;
+
+                    const actionBtn = plan === 'pro'
+                        ? `<button onclick="window.adminRevokePro('${uid}')" class="text-red-400 hover:text-red-300 px-2 py-1 border border-red-400/30 rounded text-xs transition">Quitar PRO</button>`
+                        : `<button onclick="window.adminGrantPro('${uid}')" class="text-emerald-400 hover:text-emerald-300 px-2 py-1 border border-emerald-400/30 rounded text-xs transition">Aprobar 30 Días</button>`;
+
+                    tbody.innerHTML += `
+                        <tr class="hover:bg-slate-800/50 transition">
+                            <td class="px-5 py-3 font-medium text-white">${email}</td>
+                            <td class="px-5 py-3">${planBadge}</td>
+                            <td class="px-5 py-3 text-xs text-slate-400">${expireText}</td>
+                            <td class="px-5 py-3 text-right">${actionBtn}</td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error(error);
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-red-400">Error al cargar. Revisa las reglas de Firestore.</td></tr>`;
+            }
+        };
+
+        window.adminGrantPro = async (uid) => {
+            if(!confirm("¿Aprobar 30 días de Premium para este usuario?")) return;
+            const expires = Date.now() + (30 * 24 * 60 * 60 * 1000); 
+            try {
+                await updateDoc(doc(db, 'users', uid), {
+                    plan: 'pro',
+                    planExpires: expires
+                });
+                showToast("¡Usuario actualizado a PRO!");
+                window.loadUsersForAdmin(); 
+            } catch (e) { showToast("Error al actualizar"); }
+        };
+
+        window.adminRevokePro = async (uid) => {
+            if(!confirm("¿Quitar acceso Premium a este usuario?")) return;
+            try {
+                await updateDoc(doc(db, 'users', uid), {
+                    plan: 'free'
+                });
+                showToast("Acceso revocado");
+                window.loadUsersForAdmin();
+            } catch (e) { showToast("Error al actualizar"); }
+        };
+
+        function renderMyLists(lists) {/*...*/
+            const container = document.getElementById('myListsContainer');
+            container.innerHTML = '';
+            lists.forEach(list => {
+                const listId = typeof list === 'string' ? list : list.id;
+                const listName = typeof list === 'string' ? 'Lista Antigua' : list.name;
+                container.innerHTML += `<button onclick="window.startListSession('${listId}')" class="w-full text-left bg-slate-900 hover:bg-slate-700 border border-slate-700 p-3 rounded-xl transition flex justify-between items-center group mb-2"><div><p class="font-bold text-slate-200">${listName}</p><p class="text-[10px] font-mono text-slate-500">ID: ${listId}</p></div><i class="fa-solid fa-arrow-right text-slate-600 group-hover:text-indigo-400"></i></button>`;
+            });
+        }
+
+        window.createNewList = async () => {/*...*/
+            if (userPlan === 'free' && userListsCount >= 2) { openUpgradeModal(); return showToast("Límite alcanzado. Mejora a PRO."); }
             const listName = prompt("📝 ¿Qué nombre le pondrás a esta lista?", "Mi Compra");
             if (!listName) return;
             const id = Math.random().toString(36).substring(2, 8).toUpperCase();
             await setDoc(doc(db, 'lists', id), { name: listName, markets: ["Super A", "Super B"], owner: user.uid });
-            saveListToProfile(id, listName);
+            await updateDoc(doc(db, 'users', user.uid), { savedLists: arrayUnion({ id: id, name: listName }) });
             startListSession(id);
         };
 
-        window.joinList = async () => {
+        window.joinList = async () => {/*...*/
+            if (userPlan === 'free' && userListsCount >= 2) { openUpgradeModal(); return showToast("Límite alcanzado. Mejora a PRO."); }
             const code = document.getElementById('listCodeInput').value.trim().toUpperCase();
             if (code) {
                 const docSnap = await getDoc(doc(db, 'lists', code));
                 const listName = docSnap.exists() ? docSnap.data().name : "Lista Unida";
-                saveListToProfile(code, listName); 
-                startListSession(code);
-                document.getElementById('listCodeInput').value = '';
+                await updateDoc(doc(db, 'users', user.uid), { savedLists: arrayUnion({ id: code, name: listName }) });
+                startListSession(code); document.getElementById('listCodeInput').value = '';
             }
         };
 
-        window.exitList = () => {
-            if (unsubscribeItems) unsubscribeItems();
-            if (unsubscribeList) unsubscribeList();
-            document.getElementById('listScreen').classList.add('hidden');
-            document.getElementById('homeScreen').classList.remove('hidden');
-            loadMyLists();
+        window.exitList = () => {/*...*/
+            if (unsubscribeItems) unsubscribeItems(); if (unsubscribeList) unsubscribeList();
+            document.getElementById('listScreen').classList.add('hidden'); document.getElementById('homeScreen').classList.remove('hidden');
         };
 
-        window.startListSession = (id) => {
-            currentListId = id;
-            window.currentSelectedCategory = "Todas"; 
+        window.startListSession = (id) => {/*...*/
+            currentListId = id; window.currentSelectedCategory = "Todas"; 
             document.getElementById('displayListId').innerText = id;
-            document.getElementById('homeScreen').classList.add('hidden');
-            document.getElementById('listScreen').classList.remove('hidden');
-            
+            document.getElementById('homeScreen').classList.add('hidden'); document.getElementById('listScreen').classList.remove('hidden');
             if (unsubscribeList) unsubscribeList();
             unsubscribeList = onSnapshot(doc(db, 'lists', id), (docSnap) => {
                 if (docSnap.exists()) {
-                    currentListName = docSnap.data().name || "Lista";
-                    currentMarkets = docSnap.data().markets || ["Super A", "Super B"];
+                    currentListName = docSnap.data().name || "Lista"; currentMarkets = docSnap.data().markets || ["Super A", "Super B"];
                     document.getElementById('listTitleDisplay').innerText = currentListName;
-                    
-                    const selector = document.getElementById('supermarketSelector');
-                    const currentValue = selector.value;
-                    selector.innerHTML = '';
-                    currentMarkets.forEach(m => {
-                        selector.innerHTML += `<option value="${m}">${m}</option>`;
-                    });
+                    const selector = document.getElementById('supermarketSelector'); const currentValue = selector.value;
+                    selector.innerHTML = ''; currentMarkets.forEach(m => { selector.innerHTML += `<option value="${m}">${m}</option>`; });
                     if (currentMarkets.includes(currentValue)) selector.value = currentValue;
-
                     initRealtimeListener(); 
                 }
             });
         }
 
-        window.openListSettings = async () => {
-            const newName = prompt("✏️ Cambiar nombre de la lista:", currentListName);
-            if (newName === null) return;
-            const marketsString = prompt("🏪 Escribe los supermercados separados por coma:", currentMarkets.join(", "));
-            if (marketsString === null) return;
+        window.openListSettings = async () => {/*...*/
+            const newName = prompt("✏️ Cambiar nombre de la lista:", currentListName); if (newName === null) return;
+            const marketsString = prompt("🏪 Escribe los supermercados separados por coma:", currentMarkets.join(", ")); if (marketsString === null) return;
             const newMarkets = marketsString.split(',').map(m => m.trim()).filter(m => m !== "");
+            if (userPlan === 'free' && newMarkets.length > 2) { openUpgradeModal(); return showToast("Plan Básico: Máximo 2 supermercados."); }
             if (newMarkets.length === 0) return showToast("Debes poner al menos 1 supermercado");
             await updateDoc(doc(db, 'lists', currentListId), { name: newName, markets: newMarkets });
         };
 
-        function initRealtimeListener() {
+        function initRealtimeListener() {/*...*/
             if (unsubscribeItems) unsubscribeItems();
-            const itemsRef = collection(db, 'lists', currentListId, 'items');
-            
-            unsubscribeItems = onSnapshot(query(itemsRef), (snapshot) => {
-                window.currentItemsList = [];
-                snapshot.forEach(doc => window.currentItemsList.push({ id: doc.id, ...doc.data() }));
-                renderItems(window.currentItemsList);
-                calculateStats(window.currentItemsList);
+            unsubscribeItems = onSnapshot(query(collection(db, 'lists', currentListId, 'items')), (snapshot) => {
+                window.currentItemsList = []; snapshot.forEach(doc => window.currentItemsList.push({ id: doc.id, ...doc.data() }));
+                renderItems(window.currentItemsList); calculateStats(window.currentItemsList);
             });
         }
 
-        window.openProductModal = (itemId = null) => {
-            const modal = document.getElementById('productModal');
-            document.getElementById('editItemId').value = itemId || '';
+        window.openProductModal = (itemId = null) => {/*...*/
+            const modal = document.getElementById('productModal'); document.getElementById('editItemId').value = itemId || '';
             if (itemId) {
-                document.getElementById('modalTitle').innerText = "Editar Producto";
-                const item = window.currentItemsList.find(i => i.id === itemId);
+                document.getElementById('modalTitle').innerText = "Editar Producto"; const item = window.currentItemsList.find(i => i.id === itemId);
                 if(item) {
-                    document.getElementById('pTitle').value = item.name || '';
-                    document.getElementById('pQty').value = item.quantity || 1;
-                    document.getElementById('pUnit').value = item.unit || 'uds';
-                    document.getElementById('pCategory').value = item.category || '';
-                    document.getElementById('pNote').value = item.note || '';
-                    document.getElementById('pImage').value = item.image || '';
+                    document.getElementById('pTitle').value = item.name || ''; document.getElementById('pQty').value = item.quantity || 1;
+                    document.getElementById('pUnit').value = item.unit || 'uds'; document.getElementById('pCategory').value = item.category || '';
+                    document.getElementById('pNote').value = item.note || ''; document.getElementById('pImage').value = item.image || '';
                 }
             } else {
-                document.getElementById('modalTitle').innerText = "Añadir Producto";
-                document.getElementById('pTitle').value = '';
-                document.getElementById('pQty').value = '1';
-                document.getElementById('pUnit').value = 'uds';
+                document.getElementById('modalTitle').innerText = "Añadir Producto"; document.getElementById('pTitle').value = '';
+                document.getElementById('pQty').value = '1'; document.getElementById('pUnit').value = 'uds';
                 document.getElementById('pCategory').value = window.currentSelectedCategory !== "Todas" ? window.currentSelectedCategory : '';
-                document.getElementById('pNote').value = '';
-                document.getElementById('pImage').value = '';
+                document.getElementById('pNote').value = ''; document.getElementById('pImage').value = '';
             }
             modal.classList.remove('hidden');
         };
 
         window.closeProductModal = () => document.getElementById('productModal').classList.add('hidden');
 
-        window.saveProduct = async () => {
-            const id = document.getElementById('editItemId').value;
-            const title = document.getElementById('pTitle').value.trim();
-            const qty = parseFloat(document.getElementById('pQty').value) || 1;
-            const unit = document.getElementById('pUnit').value;
-            let category = document.getElementById('pCategory').value.trim();
-            if (category) category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
-            const note = document.getElementById('pNote').value.trim();
-            const image = document.getElementById('pImage').value.trim();
-
+        window.saveProduct = async () => {/*...*/
+            const id = document.getElementById('editItemId').value; const title = document.getElementById('pTitle').value.trim();
+            const qty = parseFloat(document.getElementById('pQty').value) || 1; const unit = document.getElementById('pUnit').value;
+            let category = document.getElementById('pCategory').value.trim(); if (category) category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+            const note = document.getElementById('pNote').value.trim(); const image = userPlan === 'pro' ? document.getElementById('pImage').value.trim() : "";
             if (!title) return showToast("El título es obligatorio");
-
             const productData = { name: title, quantity: qty, unit: unit, category: category, note: note, image: image, ts: Date.now() };
-
             try {
-                if (id) {
-                    await updateDoc(doc(db, 'lists', currentListId, 'items', id), productData);
-                    showToast("Producto actualizado");
-                } else {
-                    let initialPrices = {};
-                    currentMarkets.forEach(m => initialPrices[m] = 0);
-                    productData.completed = false;
-                    productData.prices = initialPrices;
-                    await addDoc(collection(db, 'lists', currentListId, 'items'), productData);
-                    showToast("Producto añadido");
-                }
+                if (id) { await updateDoc(doc(db, 'lists', currentListId, 'items', id), productData); } 
+                else { let initialPrices = {}; currentMarkets.forEach(m => initialPrices[m] = 0); productData.completed = false; productData.prices = initialPrices; await addDoc(collection(db, 'lists', currentListId, 'items'), productData); }
                 closeProductModal();
-            } catch (error) { console.error(error); showToast("Error al guardar"); }
+            } catch (error) { showToast("Error al guardar"); }
         };
 
-        window.updatePrice = async (itemId, marketName, value) => {
-            await updateDoc(doc(db, 'lists', currentListId, 'items', itemId), { [`prices.${marketName}`]: parseFloat(value) || 0 });
-        };
+        window.updatePrice = async (itemId, marketName, value) => { await updateDoc(doc(db, 'lists', currentListId, 'items', itemId), { [`prices.${marketName}`]: parseFloat(value) || 0 }); };
+        window.toggleComplete = async (id, currentStatus) => { await updateDoc(doc(db, 'lists', currentListId, 'items', id), { completed: !currentStatus }); };
+        window.deleteItem = async (id) => { if(confirm("¿Seguro que deseas borrar este producto?")) await deleteDoc(doc(db, 'lists', currentListId, 'items', id)); };
+        window.selectCategoryTab = (categoryName) => { window.currentSelectedCategory = categoryName; renderItems(window.currentItemsList); };
 
-        window.toggleComplete = async (id, currentStatus) => {
-            await updateDoc(doc(db, 'lists', currentListId, 'items', id), { completed: !currentStatus });
-        };
-
-        window.deleteItem = async (id) => {
-            if(confirm("¿Seguro que deseas borrar este producto?")) {
-                await deleteDoc(doc(db, 'lists', currentListId, 'items', id));
-            }
-        };
-
-        window.selectCategoryTab = (categoryName) => {
-            window.currentSelectedCategory = categoryName;
-            renderItems(window.currentItemsList);
-        };
-
-        function renderItems(items) {
-            const container = document.getElementById('itemsContainer');
-            const tabsContainer = document.getElementById('categoryTabsContainer');
-            
-            container.innerHTML = '';
-            tabsContainer.innerHTML = '';
-
-            if (items.length === 0) {
-                container.innerHTML = `<div class="text-center py-16 opacity-20"><i class="fa-solid fa-cart-shopping text-6xl mb-4 dark:text-slate-400"></i><p class="font-bold dark:text-slate-400">Lista vacía</p></div>`;
-                return;
-            }
-
-            let uniqueCategories = new Set();
-            items.forEach(item => uniqueCategories.add(item.category ? item.category : 'Otros'));
-            
-            const categoriesList = ['Todas', ...Array.from(uniqueCategories).sort((a, b) => {
-                if (a === 'Otros') return 1;
-                if (b === 'Otros') return -1;
-                return a.localeCompare(b);
-            })];
-
-            if (!categoriesList.includes(window.currentSelectedCategory)) {
-                window.currentSelectedCategory = 'Todas';
-            }
-
+        function renderItems(items) {/*...*/
+            const container = document.getElementById('itemsContainer'); const tabsContainer = document.getElementById('categoryTabsContainer');
+            container.innerHTML = ''; tabsContainer.innerHTML = '';
+            if (items.length === 0) { container.innerHTML = `<div class="text-center py-16 opacity-20"><i class="fa-solid fa-cart-shopping text-6xl mb-4 text-slate-400"></i><p class="font-bold text-slate-400">Lista vacía</p></div>`; return; }
+            let uniqueCategories = new Set(); items.forEach(item => uniqueCategories.add(item.category ? item.category : 'Otros'));
+            const categoriesList = ['Todas', ...Array.from(uniqueCategories).sort((a, b) => { if (a === 'Otros') return 1; if (b === 'Otros') return -1; return a.localeCompare(b); })];
+            if (!categoriesList.includes(window.currentSelectedCategory)) window.currentSelectedCategory = 'Todas';
             categoriesList.forEach(cat => {
-                const isActive = window.currentSelectedCategory === cat;
-                const tab = document.createElement('button');
-                tab.onclick = () => window.selectCategoryTab(cat);
-                
-                tab.className = `whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shadow-sm border ${
-                    isActive 
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-indigo-200 dark:shadow-indigo-900' 
-                    : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
-                }`;
-                tab.innerText = cat;
-                tabsContainer.appendChild(tab);
+                const isActive = window.currentSelectedCategory === cat; const tab = document.createElement('button'); tab.onclick = () => window.selectCategoryTab(cat);
+                tab.className = `whitespace-nowrap px-4 py-2 rounded-full text-xs font-bold transition-all shadow-sm border ${ isActive ? 'bg-indigo-600 text-white border-indigo-600 shadow-indigo-900' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700' }`;
+                tab.innerText = cat; tabsContainer.appendChild(tab);
             });
-
-            let itemsToRender = items;
-            if (window.currentSelectedCategory !== 'Todas') {
-                itemsToRender = items.filter(item => (item.category ? item.category : 'Otros') === window.currentSelectedCategory);
-            }
-
-            const groupedItems = {};
-            itemsToRender.forEach(item => {
-                const cat = item.category ? item.category : 'Otros';
-                if (!groupedItems[cat]) groupedItems[cat] = [];
-                groupedItems[cat].push(item);
-            });
-
-            const renderedCategories = Object.keys(groupedItems).sort((a, b) => {
-                if (a === 'Otros') return 1;
-                if (b === 'Otros') return -1;
-                return a.localeCompare(b);
-            });
-
-            renderedCategories.forEach(cat => {
-                if (window.currentSelectedCategory === 'Todas') {
-                    const catHeader = document.createElement('div');
-                    catHeader.innerHTML = `<h4 class="font-bold text-slate-500 dark:text-slate-400 text-sm uppercase tracking-wider mt-6 mb-3 border-b border-slate-200 dark:border-slate-700 pb-2 flex items-center"><i class="fa-solid fa-tag mr-2 text-indigo-400"></i>${cat}</h4>`;
-                    container.appendChild(catHeader);
-                }
-
-                const itemsInCat = groupedItems[cat].sort((a,b) => {
-                    if (a.completed === b.completed) return b.ts - a.ts;
-                    return a.completed ? 1 : -1;
-                });
-
-                itemsInCat.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = `bg-white dark:bg-slate-800 rounded-3xl border overflow-hidden transition-all mb-3 ${item.completed ? 'border-slate-100 dark:border-slate-800 completed' : 'border-slate-200 dark:border-slate-700 shadow-sm'}`;
-                    
-                    const qty = item.quantity || 1;
-                    const unit = item.unit || 'uds';
-                    
-                    let badgesHtml = '';
-                    if(item.note) badgesHtml += `<div class="text-xs text-slate-500 dark:text-slate-400 mt-1"><i class="fa-regular fa-comment-dots mr-1"></i>${item.note}</div>`;
-                    
-                    let imgHtml = item.image ? `<img src="${item.image}" class="w-14 h-14 object-cover rounded-xl border border-slate-100 dark:border-slate-700" onerror="this.style.display='none'">` : '';
-
+            let itemsToRender = window.currentSelectedCategory !== 'Todas' ? items.filter(item => (item.category ? item.category : 'Otros') === window.currentSelectedCategory) : items;
+            const groupedItems = {}; itemsToRender.forEach(item => { const cat = item.category ? item.category : 'Otros'; if (!groupedItems[cat]) groupedItems[cat] = []; groupedItems[cat].push(item); });
+            Object.keys(groupedItems).sort((a, b) => { if (a === 'Otros') return 1; if (b === 'Otros') return -1; return a.localeCompare(b); }).forEach(cat => {
+                if (window.currentSelectedCategory === 'Todas') { const catHeader = document.createElement('div'); catHeader.innerHTML = `<h4 class="font-bold text-slate-400 text-sm uppercase tracking-wider mt-6 mb-3 border-b border-slate-700 pb-2 flex items-center"><i class="fa-solid fa-tag mr-2 text-indigo-400"></i>${cat}</h4>`; container.appendChild(catHeader); }
+                groupedItems[cat].sort((a,b) => { if (a.completed === b.completed) return b.ts - a.ts; return a.completed ? 1 : -1; }).forEach(item => {
+                    const card = document.createElement('div'); card.className = `bg-slate-800 rounded-3xl border overflow-hidden transition-all mb-3 ${item.completed ? 'border-slate-800 completed' : 'border-slate-700 shadow-sm'}`;
+                    const qty = item.quantity || 1; const unit = item.unit || 'uds';
+                    let badgesHtml = item.note ? `<div class="text-xs text-slate-400 mt-1"><i class="fa-regular fa-comment-dots mr-1"></i>${item.note}</div>` : '';
+                    let imgHtml = item.image ? `<img src="${item.image}" class="w-14 h-14 object-cover rounded-xl border border-slate-700" onerror="this.style.display='none'">` : '';
                     let pricesHtml = '';
                     if (!item.completed) {
                         currentMarkets.forEach(market => {
-                            let unitPrice = item.prices ? (item.prices[market] || 0) : 0;
-                            let totalForMarket = (unitPrice * qty).toFixed(2);
-                            pricesHtml += `
-                                <div class="flex-1 bg-slate-50 dark:bg-slate-900 rounded-2xl p-3 border border-slate-100 dark:border-slate-700">
-                                    <p class="text-[9px] font-black uppercase text-slate-400 dark:text-slate-500 mb-1 truncate">${market}</p>
-                                    <div class="relative mb-2">
-                                        <span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-300 dark:text-slate-600">$</span>
-                                        <input type="number" step="0.01" value="${unitPrice || ''}" onchange="updatePrice('${item.id}', '${market}', this.value)" placeholder="0.00" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg pl-6 pr-2 py-1.5 text-xs focus:ring-2 focus:ring-indigo-400 outline-none font-bold text-slate-700 dark:text-white transition-colors">
-                                    </div>
-                                    <div class="flex justify-between items-center text-[10px]">
-                                        <span class="text-slate-400 dark:text-slate-500 font-bold">Total:</span>
-                                        <span class="font-black text-indigo-600 dark:text-indigo-400">RD$${totalForMarket}</span>
-                                    </div>
-                                </div>
-                            `;
+                            let unitPrice = item.prices ? (item.prices[market] || 0) : 0; let totalForMarket = (unitPrice * qty).toFixed(2);
+                            pricesHtml += `<div class="flex-1 bg-slate-900 rounded-2xl p-3 border border-slate-700"><p class="text-[9px] font-black uppercase text-slate-500 mb-1 truncate">${market}</p><div class="relative mb-2"><span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-600">$</span><input type="number" step="0.01" value="${unitPrice || ''}" onchange="updatePrice('${item.id}', '${market}', this.value)" placeholder="0.00" class="w-full bg-slate-800 border border-slate-600 rounded-lg pl-6 pr-2 py-1.5 text-xs focus:ring-2 focus:ring-indigo-400 outline-none font-bold text-white"></div><div class="flex justify-between items-center text-[10px]"><span class="text-slate-500 font-bold">Total:</span><span class="font-black text-indigo-400">$${totalForMarket}</span></div></div>`;
                         });
                     }
-
-                    card.innerHTML = `
-                        <div class="p-4">
-                            <div class="flex items-start gap-4">
-                                <button onclick="toggleComplete('${item.id}', ${item.completed})" class="mt-1 text-2xl shrink-0 transition hover:scale-110">
-                                    ${item.completed ? '<i class="fa-solid fa-circle-check text-emerald-500"></i>' : '<i class="fa-regular fa-circle text-slate-200 dark:text-slate-600 hover:text-indigo-300 dark:hover:text-indigo-500"></i>'}
-                                </button>
-                                ${imgHtml}
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <h4 class="font-black text-slate-800 dark:text-white text-lg leading-tight ${item.completed ? 'completed-text' : ''}">${item.name}</h4>
-                                            <p class="text-sm font-bold text-slate-400 dark:text-slate-500 mt-0.5">${qty} ${unit}</p>
-                                        </div>
-                                        <div class="flex gap-1">
-                                            <button onclick="openProductModal('${item.id}')" class="text-slate-300 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 p-2 rounded-full hover:bg-indigo-50 dark:hover:bg-slate-700 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                                            <button onclick="deleteItem('${item.id}')" class="text-slate-300 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 p-2 rounded-full hover:bg-red-50 dark:hover:bg-slate-700 transition"><i class="fa-solid fa-trash-can"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="mt-1 flex flex-wrap gap-2">${badgesHtml}</div>
-                                </div>
-                            </div>
-                        </div>
-                        ${!item.completed ? `<div class="px-4 pb-4 flex flex-col sm:flex-row gap-3 border-t border-slate-50 dark:border-slate-700/50 pt-3">${pricesHtml}</div>` : ''}
-                    `;
+                    card.innerHTML = `<div class="p-4"><div class="flex items-start gap-4"><button onclick="toggleComplete('${item.id}', ${item.completed})" class="mt-1 text-2xl shrink-0 transition hover:scale-110">${item.completed ? '<i class="fa-solid fa-circle-check text-emerald-500"></i>' : '<i class="fa-regular fa-circle text-slate-600 hover:text-indigo-500"></i>'}</button>${imgHtml}<div class="flex-1 min-w-0"><div class="flex justify-between items-start"><div><h4 class="font-black text-white text-lg leading-tight ${item.completed ? 'completed-text' : ''}">${item.name}</h4><p class="text-sm font-bold text-slate-500 mt-0.5">${qty} ${unit}</p></div><div class="flex gap-1"><button onclick="openProductModal('${item.id}')" class="text-slate-500 hover:text-indigo-400 p-2 rounded-full hover:bg-slate-700 transition"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteItem('${item.id}')" class="text-slate-500 hover:text-red-400 p-2 rounded-full hover:bg-slate-700 transition"><i class="fa-solid fa-trash-can"></i></button></div></div><div class="mt-1 flex flex-wrap gap-2">${badgesHtml}</div></div></div></div>${!item.completed ? `<div class="px-4 pb-4 flex flex-col sm:flex-row gap-3 border-t border-slate-700/50 pt-3">${pricesHtml}</div>` : ''}`;
                     container.appendChild(card);
                 });
             });
         }
 
-        function calculateStats(items) {
-            let totals = {};
-            currentMarkets.forEach(m => totals[m] = 0);
-            items.forEach(item => {
-                const qty = item.quantity || 1;
-                currentMarkets.forEach(market => {
-                    if(item.prices && item.prices[market]) totals[market] += (item.prices[market] * qty);
-                });
-            });
-
-            let winner = "Ninguno";
-            let minTotal = Infinity;
-            for (const [market, total] of Object.entries(totals)) {
-                if (total > 0 && total < minTotal) { minTotal = total; winner = market; }
-            }
-            if (minTotal === Infinity) minTotal = 0;
-            
-            window.currentBestMarket = minTotal > 0 ? winner : currentMarkets[0];
+        function calculateStats(items) {/*...*/
+            let totals = {}; currentMarkets.forEach(m => totals[m] = 0);
+            items.forEach(item => { const qty = item.quantity || 1; currentMarkets.forEach(market => { if(item.prices && item.prices[market]) totals[market] += (item.prices[market] * qty); }); });
+            let winner = "Ninguno"; let minTotal = Infinity;
+            for (const [market, total] of Object.entries(totals)) { if (total > 0 && total < minTotal) { minTotal = total; winner = market; } }
+            if (minTotal === Infinity) minTotal = 0; window.currentBestMarket = minTotal > 0 ? winner : currentMarkets[0];
             document.getElementById('winnerName').innerText = minTotal > 0 ? winner : "Sin datos";
-
-            const totalsDiv = document.getElementById('totalsContainer');
-            totalsDiv.innerHTML = '';
-            const footerDiv = document.getElementById('footerContainer');
-            footerDiv.innerHTML = '';
-
+            const totalsDiv = document.getElementById('totalsContainer'); totalsDiv.innerHTML = '';
+            const footerDiv = document.getElementById('footerContainer'); footerDiv.innerHTML = '';
             currentMarkets.forEach((market, index) => {
                 const t = totals[market].toFixed(2);
-                totalsDiv.innerHTML += `
-                    <div class="flex flex-col flex-1 min-w-[80px]">
-                        <span class="text-slate-500 dark:text-slate-400 text-[9px] font-bold uppercase truncate">${market}</span>
-                        <span class="font-extrabold text-lg tracking-tight">RD$${t}</span>
-                    </div>
-                `;
-                footerDiv.innerHTML += `
-                    <div class="flex-1 text-center min-w-[60px]">
-                        <p class="text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase truncate">${market}</p>
-                        <p class="font-black text-slate-800 dark:text-white">RD$${t}</p>
-                    </div>
-                `;
-                if (index < currentMarkets.length - 1) footerDiv.innerHTML += `<div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>`;
+                totalsDiv.innerHTML += `<div class="flex flex-col flex-1 min-w-[80px]"><span class="text-slate-400 text-[9px] font-bold uppercase truncate">${market}</span><span class="font-extrabold text-lg tracking-tight">$${t}</span></div>`;
+                footerDiv.innerHTML += `<div class="flex-1 text-center min-w-[60px]"><p class="text-[9px] text-slate-500 font-bold uppercase truncate">${market}</p><p class="font-black text-white">$${t}</p></div>`;
+                if (index < currentMarkets.length - 1) footerDiv.innerHTML += `<div class="h-6 w-px bg-slate-700"></div>`;
             });
             updateSummary();
         }
 
-        window.updateSummary = () => {
-            const selector = document.getElementById('supermarketSelector');
-            if (!selector || selector.options.length === 0) return;
-            const selectedMarket = selector.value;
-            let pendingCount = 0, pendingTotal = 0, completedCount = 0, completedTotal = 0;
-
+        window.updateSummary = () => {/*...*/
+            const selector = document.getElementById('supermarketSelector'); if (!selector || selector.options.length === 0) return;
+            const selectedMarket = selector.value; let pendingCount = 0, pendingTotal = 0, completedCount = 0, completedTotal = 0;
             window.currentItemsList.forEach(item => {
-                const qty = item.quantity || 1;
-                const price = (item.prices && item.prices[selectedMarket]) ? item.prices[selectedMarket] : 0;
-                const cost = price * qty;
-                if (item.completed) { completedCount++; completedTotal += cost; } 
-                else { pendingCount++; pendingTotal += cost; }
+                const qty = item.quantity || 1; const price = (item.prices && item.prices[selectedMarket]) ? item.prices[selectedMarket] : 0; const cost = price * qty;
+                if (item.completed) { completedCount++; completedTotal += cost; } else { pendingCount++; pendingTotal += cost; }
             });
-
-            document.getElementById('summaryPendingCount').innerText = pendingCount;
-            document.getElementById('summaryPendingTotal').innerText = `RD$${pendingTotal.toFixed(2)}`;
-            document.getElementById('summaryCompletedCount').innerText = completedCount;
-            document.getElementById('summaryCompletedTotal').innerText = `RD$${completedTotal.toFixed(2)}`;
-            document.getElementById('summaryTotalCount').innerText = pendingCount + completedCount;
-            document.getElementById('summaryTotalTotal').innerText = `RD$${(pendingTotal + completedTotal).toFixed(2)}`;
+            document.getElementById('summaryPendingCount').innerText = pendingCount; document.getElementById('summaryPendingTotal').innerText = `$${pendingTotal.toFixed(2)}`;
+            document.getElementById('summaryCompletedCount').innerText = completedCount; document.getElementById('summaryCompletedTotal').innerText = `$${completedTotal.toFixed(2)}`;
+            document.getElementById('summaryTotalCount').innerText = pendingCount + completedCount; document.getElementById('summaryTotalTotal').innerText = `$${(pendingTotal + completedTotal).toFixed(2)}`;
         };
 
-        window.openStatsModal = () => {
+        window.openStatsModal = () => {/*...*/
+            if (userPlan === 'free') return openUpgradeModal();
             if(window.currentItemsList.length === 0) return showToast("Añade productos para ver estadísticas");
             let completedItems = 0; let categoryTotals = {}; let maxPrice = 0; let maxItemName = "Ninguno"; let marketTotals = {};
             currentMarkets.forEach(m => marketTotals[m] = 0);
-
             window.currentItemsList.forEach(item => {
                 if (item.completed) completedItems++;
-                const qty = item.quantity || 1;
-                const bestPrice = (item.prices && item.prices[window.currentBestMarket]) ? item.prices[window.currentBestMarket] : 0;
-                const bestCost = bestPrice * qty;
+                const qty = item.quantity || 1; const bestPrice = (item.prices && item.prices[window.currentBestMarket]) ? item.prices[window.currentBestMarket] : 0; const bestCost = bestPrice * qty;
                 if (bestCost > maxPrice) { maxPrice = bestCost; maxItemName = item.name; }
-                const cat = item.category ? item.category.trim().toUpperCase() : 'OTROS';
-                if (!categoryTotals[cat]) categoryTotals[cat] = 0;
-                categoryTotals[cat] += bestCost;
-                currentMarkets.forEach(m => {
-                    const price = (item.prices && item.prices[m]) ? item.prices[m] : 0;
-                    marketTotals[m] += (price * qty);
-                });
+                const cat = item.category ? item.category.trim().toUpperCase() : 'OTROS'; if (!categoryTotals[cat]) categoryTotals[cat] = 0; categoryTotals[cat] += bestCost;
+                currentMarkets.forEach(m => { const price = (item.prices && item.prices[m]) ? item.prices[m] : 0; marketTotals[m] += (price * qty); });
             });
-
-            const progress = (completedItems / window.currentItemsList.length) * 100;
-            document.getElementById('statsProgressBar').style.width = `${progress}%`;
-            document.getElementById('statsProgressText').innerText = `${progress.toFixed(0)}%`;
-
+            document.getElementById('statsProgressBar').style.width = `${(completedItems / window.currentItemsList.length) * 100}%`;
+            document.getElementById('statsProgressText').innerText = `${((completedItems / window.currentItemsList.length) * 100).toFixed(0)}%`;
             let minTotal = Infinity; let maxTotal = 0;
-            for (const m in marketTotals) {
-                if (marketTotals[m] < minTotal) minTotal = marketTotals[m];
-                if (marketTotals[m] > maxTotal) maxTotal = marketTotals[m];
-            }
-            const savings = (maxTotal > 0 && minTotal < Infinity) ? (maxTotal - minTotal) : 0;
-            document.getElementById('statsSavings').innerText = `RD$${savings.toFixed(2)}`;
-            document.getElementById('statsMostExpensiveName').innerText = maxItemName;
-            document.getElementById('statsMostExpensivePrice').innerText = `RD$${maxPrice.toFixed(2)}`;
-
-            const catContainer = document.getElementById('statsCategoriesContainer');
-            catContainer.innerHTML = '';
-            const sortedCategories = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
-            sortedCategories.forEach(([catName, amount]) => {
-                if(amount > 0) {
-                    catContainer.innerHTML += `
-                        <div class="flex justify-between items-center border-b border-slate-50 dark:border-slate-700 pb-2 last:border-0">
-                            <span class="font-bold text-slate-700 dark:text-slate-300 text-sm">${catName}</span>
-                            <span class="font-black text-slate-800 dark:text-white">RD$${amount.toFixed(2)}</span>
-                        </div>
-                    `;
-                }
+            for (const m in marketTotals) { if (marketTotals[m] < minTotal) minTotal = marketTotals[m]; if (marketTotals[m] > maxTotal) maxTotal = marketTotals[m]; }
+            document.getElementById('statsSavings').innerText = `$${((maxTotal > 0 && minTotal < Infinity) ? (maxTotal - minTotal) : 0).toFixed(2)}`;
+            document.getElementById('statsMostExpensiveName').innerText = maxItemName; document.getElementById('statsMostExpensivePrice').innerText = `$${maxPrice.toFixed(2)}`;
+            const catContainer = document.getElementById('statsCategoriesContainer'); catContainer.innerHTML = '';
+            Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]).forEach(([catName, amount]) => {
+                if(amount > 0) catContainer.innerHTML += `<div class="flex justify-between items-center border-b border-slate-700 pb-2 last:border-0"><span class="font-bold text-slate-300 text-sm">${catName}</span><span class="font-black text-white">$${amount.toFixed(2)}</span></div>`;
             });
-            if (catContainer.innerHTML === '') catContainer.innerHTML = '<p class="text-center text-slate-400 dark:text-slate-500 text-sm">Aún no hay precios registrados</p>';
+            if (catContainer.innerHTML === '') catContainer.innerHTML = '<p class="text-center text-slate-500 text-sm">Aún no hay precios registrados</p>';
             document.getElementById('statsModal').classList.remove('hidden');
         };
 
         window.closeStatsModal = () => document.getElementById('statsModal').classList.add('hidden');
 
-        window.shareViaWhatsApp = () => {
+        window.shareListViaWhatsApp = () => {/*...*/
+            if (userPlan === 'free') return openUpgradeModal();
             if (window.currentItemsList.length === 0) return showToast("La lista está vacía");
             const pendingItems = window.currentItemsList.filter(item => !item.completed);
-            if (pendingItems.length === 0) return showToast("¡Ya completaste todo en la lista!");
+            if (pendingItems.length === 0) return showToast("¡Ya completaste todo!");
             let message = `🛒 *Falta por comprar en ${currentListName}:*\n\n`;
-            const grouped = {};
-            pendingItems.forEach(item => {
-                const cat = item.category ? item.category : 'Otros';
-                if (!grouped[cat]) grouped[cat] = [];
-                grouped[cat].push(item);
-            });
-            for (const cat in grouped) {
-                message += `*${cat}*\n`;
-                grouped[cat].forEach(item => {
-                    const qty = item.quantity || 1;
-                    const unit = item.unit || 'uds';
-                    const note = item.note ? ` (${item.note})` : '';
-                    message += `• ${item.name} - ${qty} ${unit}${note}\n`;
-                });
-                message += `\n`;
-            }
+            const grouped = {}; pendingItems.forEach(item => { const cat = item.category ? item.category : 'Otros'; if (!grouped[cat]) grouped[cat] = []; grouped[cat].push(item); });
+            for (const cat in grouped) { message += `*${cat}*\n`; grouped[cat].forEach(item => { message += `• ${item.name} - ${item.quantity || 1} ${item.unit || 'uds'}${item.note ? ` (${item.note})` : ''}\n`; }); message += `\n`; }
             message += `🔗 *Código LorHels:* ${currentListId}`;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
         };
 
-        window.copyId = () => {/*...*/};
-        window.shareList = () => {/*...*/};
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => t.classList.add('opacity-0', 'pointer-events-none'), 2000);
-        }
+        window.copyId = () => {/*...*/}; function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.remove('opacity-0', 'pointer-events-none'); setTimeout(() => t.classList.add('opacity-0', 'pointer-events-none'), 2000); }
     </script>
 </body>
 </html>
